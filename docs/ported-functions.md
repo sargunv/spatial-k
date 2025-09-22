@@ -2,7 +2,7 @@
 
 The following functions have been ported as of version `0.2.0` of this library.
 
-You can view porting progress for the next release [here](https://github.com/dellisd/spatial-k/milestone/1).
+You can view porting progress for the next release [here](https://github.com/maplibre/spatial-k/milestone/1).
 
 ## Measurement
 
