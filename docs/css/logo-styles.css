@@ -6,7 +6,6 @@
     --color-dark: #4cae4f;
 }
 
-
 .library-name a {
     position: relative;
     margin-left: 55px;
@@ -14,7 +13,7 @@
 
 .library-name a::before {
     content: '';
-    background: url("../../images/logo.png") center no-repeat;
+    background: url("assets/logo.png") center no-repeat;
     background-size: contain;
     position: absolute;
     width: 50px;
