@@ -1,31 +1,34 @@
 package org.maplibre.spatialk.geojson
 
-import org.maplibre.spatialk.geojson.serialization.GeometrySerializer
-import org.maplibre.spatialk.geojson.serialization.jsonJoin
-import org.maplibre.spatialk.geojson.serialization.jsonProp
-import org.maplibre.spatialk.geojson.serialization.toBbox
-import org.maplibre.spatialk.geojson.serialization.toPosition
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmStatic
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
-import kotlin.jvm.JvmOverloads
-import kotlin.jvm.JvmStatic
+import org.maplibre.spatialk.geojson.serialization.GeometrySerializer
+import org.maplibre.spatialk.geojson.serialization.jsonJoin
+import org.maplibre.spatialk.geojson.serialization.jsonProp
+import org.maplibre.spatialk.geojson.serialization.toBbox
+import org.maplibre.spatialk.geojson.serialization.toPosition
 
 @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
 @Serializable(with = GeometrySerializer::class)
-public class MultiLineString @JvmOverloads constructor(
-    public val coordinates: List<List<Position>>,
-    override val bbox: BoundingBox? = null
-) : Geometry() {
+public class MultiLineString
+@JvmOverloads
+constructor(public val coordinates: List<List<Position>>, override val bbox: BoundingBox? = null) :
+    Geometry() {
     @JvmOverloads
-    public constructor(vararg coordinates: List<Position>, bbox: BoundingBox? = null) : this(coordinates.toList(), bbox)
+    public constructor(
+        vararg coordinates: List<Position>,
+        bbox: BoundingBox? = null,
+    ) : this(coordinates.toList(), bbox)
 
     @JvmOverloads
     public constructor(
         coordinates: Array<Array<DoubleArray>>,
-        bbox: BoundingBox? = null
+        bbox: BoundingBox? = null,
     ) : this(coordinates.map { it.map(::Position) }, bbox)
 
     init {
@@ -65,11 +68,12 @@ public class MultiLineString @JvmOverloads constructor(
             fromJson(Json.decodeFromString(JsonObject.serializer(), json))
 
         @JvmStatic
-        public fun fromJsonOrNull(json: String): MultiLineString? = try {
-            fromJson(json)
-        } catch (_: Exception) {
-            null
-        }
+        public fun fromJsonOrNull(json: String): MultiLineString? =
+            try {
+                fromJson(json)
+            } catch (_: Exception) {
+                null
+            }
 
         @JvmStatic
         public fun fromJson(json: JsonObject): MultiLineString {
@@ -78,7 +82,9 @@ public class MultiLineString @JvmOverloads constructor(
             }
 
             val coords =
-                json.getValue("coordinates").jsonArray.map { line -> line.jsonArray.map { it.jsonArray.toPosition() } }
+                json.getValue("coordinates").jsonArray.map { line ->
+                    line.jsonArray.map { it.jsonArray.toPosition() }
+                }
             val bbox = json["bbox"]?.jsonArray?.toBbox()
 
             return MultiLineString(coords, bbox)

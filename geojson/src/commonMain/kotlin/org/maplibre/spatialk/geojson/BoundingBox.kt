@@ -1,26 +1,27 @@
 package org.maplibre.spatialk.geojson
 
+import kotlinx.serialization.Serializable
 import org.maplibre.spatialk.geojson.serialization.BoundingBoxSerializer
 import org.maplibre.spatialk.geojson.serialization.jsonJoin
-import kotlinx.serialization.Serializable
 
 /**
  * Represents an area bounded by a [northeast] and [southwest] [Position].
  *
- * A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range for its Geometries,
- * Features, or FeatureCollections.
+ * A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range
+ * for its Geometries, Features, or FeatureCollections.
  *
- * When serialized, a BoundingBox is represented as an array of length 2*n where n is the number of dimensions
- * represented in the contained geometries, with all axes of the most southwesterly point followed by all axes
- * of the northeasterly point. The axes order of a BoundingBox follow the axes order of geometries.
+ * When serialized, a BoundingBox is represented as an array of length 2*n where n is the number of
+ * dimensions represented in the contained geometries, with all axes of the most southwesterly point
+ * followed by all axes of the northeasterly point. The axes order of a BoundingBox follow the axes
+ * order of geometries.
  *
  * For the BoundingBox to be serialized in 3D form, both Positions must have a defined altitude.
- *
- * @see <a href="https://tools.ietf.org/html/rfc7946#section-5">https://tools.ietf.org/html/rfc7946#section-5</a>
  *
  * @property northeast The northeastern corner of the BoundingBox
  * @property southwest The southwestern corner of the BoundingBox
  * @property coordinates The GeoJSON bounding box coordinate array
+ * @see <a
+ *   href="https://tools.ietf.org/html/rfc7946#section-5">https://tools.ietf.org/html/rfc7946#section-5</a>
  */
 @Serializable(with = BoundingBoxSerializer::class)
 @Suppress("MagicNumber")
@@ -31,9 +32,12 @@ public class BoundingBox constructor(public val coordinates: DoubleArray) {
         }
     }
 
-    public constructor(west: Double, south: Double, east: Double, north: Double) : this(
-        doubleArrayOf(west, south, east, north)
-    )
+    public constructor(
+        west: Double,
+        south: Double,
+        east: Double,
+        north: Double,
+    ) : this(doubleArrayOf(west, south, east, north))
 
     public constructor(coordinates: List<Double>) : this(coordinates.toDoubleArray())
 
@@ -43,29 +47,41 @@ public class BoundingBox constructor(public val coordinates: DoubleArray) {
         minAltitude: Double,
         east: Double,
         north: Double,
-        maxAltitude: Double
+        maxAltitude: Double,
     ) : this(doubleArrayOf(west, south, minAltitude, east, north, maxAltitude))
 
-    public constructor(southwest: Position, northeast: Position) : this(
+    public constructor(
+        southwest: Position,
+        northeast: Position,
+    ) : this(
         when (southwest.hasAltitude && northeast.hasAltitude) {
             true -> southwest.coordinates + northeast.coordinates
-            false -> doubleArrayOf(southwest.longitude, southwest.latitude, northeast.longitude, northeast.latitude)
+            false ->
+                doubleArrayOf(
+                    southwest.longitude,
+                    southwest.latitude,
+                    northeast.longitude,
+                    northeast.latitude,
+                )
         }
     )
 
     public val southwest: Position
-        get() = when (hasAltitude) {
-            true -> Position(coordinates[0], coordinates[1], coordinates[2])
-            false -> Position(coordinates[0], coordinates[1])
-        }
+        get() =
+            when (hasAltitude) {
+                true -> Position(coordinates[0], coordinates[1], coordinates[2])
+                false -> Position(coordinates[0], coordinates[1])
+            }
 
     public val northeast: Position
-        get() = when (hasAltitude) {
-            true -> Position(coordinates[3], coordinates[4], coordinates[5])
-            false -> Position(coordinates[2], coordinates[3])
-        }
+        get() =
+            when (hasAltitude) {
+                true -> Position(coordinates[3], coordinates[4], coordinates[5])
+                false -> Position(coordinates[2], coordinates[3])
+            }
 
     public operator fun component1(): Position = southwest
+
     public operator fun component2(): Position = northeast
 
     override fun equals(other: Any?): Boolean {

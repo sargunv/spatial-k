@@ -2,10 +2,14 @@
 
 package org.maplibre.spatialk.turf
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertIs
 import org.maplibre.spatialk.geojson.BoundingBox
+import org.maplibre.spatialk.geojson.Feature
 import org.maplibre.spatialk.geojson.LineString
 import org.maplibre.spatialk.geojson.MultiLineString
-import org.maplibre.spatialk.geojson.Feature
 import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Polygon
 import org.maplibre.spatialk.geojson.Position
@@ -13,10 +17,6 @@ import org.maplibre.spatialk.geojson.dsl.geometryCollection
 import org.maplibre.spatialk.geojson.dsl.polygon
 import org.maplibre.spatialk.turf.utils.assertDoubleEquals
 import org.maplibre.spatialk.turf.utils.readResource
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertIs
 
 @ExperimentalTurfApi
 class TurfMeasurementTest {
@@ -47,21 +47,18 @@ class TurfMeasurementTest {
     @Test
     fun testBbox() {
         val point = Point.fromJson(readResource("measurement/bbox/point.json"))
-        assertEquals(
-            BoundingBox(point.coordinates, point.coordinates),
-            bbox(point)
-        )
+        assertEquals(BoundingBox(point.coordinates, point.coordinates), bbox(point))
 
         val lineString = LineString.fromJson(readResource("measurement/bbox/lineString.json"))
         assertEquals(
             BoundingBox(-79.376220703125, 43.65197548731187, -73.58642578125, 45.4986468234261),
-            bbox(lineString)
+            bbox(lineString),
         )
 
         val polygon = Polygon.fromJson(readResource("measurement/bbox/polygon.json"))
         assertEquals(
             BoundingBox(-64.44580078125, 45.9511496866914, -61.973876953125, 47.07012182383309),
-            bbox(polygon)
+            bbox(polygon),
         )
     }
 
@@ -182,8 +179,6 @@ class TurfMeasurementTest {
         val start = Position(-122.349358, startLat)
         val antipodal = Position(106.33, startLat)
 
-        assertFails {
-            greatCircle(start, antipodal)
-        }
+        assertFails { greatCircle(start, antipodal) }
     }
 }

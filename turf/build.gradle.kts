@@ -14,11 +14,7 @@ kotlin {
     explicitApi()
     applyDefaultHierarchyTemplate()
 
-    jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_1_8
-        }
-    }
+    jvm { compilerOptions { jvmTarget = JvmTarget.JVM_1_8 } }
 
     js(IR) {
         browser()
@@ -64,15 +60,9 @@ kotlin {
     // watchosDeviceArm64()
 
     sourceSets {
-        all {
-            with(languageSettings) {
-                optIn("kotlin.RequiresOptIn")
-            }
-        }
+        all { with(languageSettings) { optIn("kotlin.RequiresOptIn") } }
 
-        commonMain.dependencies {
-            api(project(":geojson"))
-        }
+        commonMain.dependencies { api(project(":geojson")) }
 
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -84,10 +74,4 @@ kotlin {
 
 tasks.named("jsBrowserTest") { enabled = false }
 
-dokka {
-    dokkaSourceSets {
-        configureEach {
-            includes.from("MODULE.md")
-        }
-    }
-}
+dokka { dokkaSourceSets { configureEach { includes.from("MODULE.md") } } }
