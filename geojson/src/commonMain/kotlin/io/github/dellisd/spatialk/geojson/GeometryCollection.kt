@@ -4,23 +4,26 @@ import io.github.dellisd.spatialk.geojson.serialization.GeometrySerializer
 import io.github.dellisd.spatialk.geojson.serialization.jsonJoin
 import io.github.dellisd.spatialk.geojson.serialization.jsonProp
 import io.github.dellisd.spatialk.geojson.serialization.toBbox
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmStatic
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlin.jvm.JvmOverloads
-import kotlin.jvm.JvmStatic
 
 @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
 @Serializable(with = GeometrySerializer::class)
-public class GeometryCollection @JvmOverloads constructor(
-    public val geometries: List<Geometry>,
-    override val bbox: BoundingBox? = null
-) : Geometry(), Collection<Geometry> by geometries {
+public class GeometryCollection
+@JvmOverloads
+constructor(public val geometries: List<Geometry>, override val bbox: BoundingBox? = null) :
+    Geometry(), Collection<Geometry> by geometries {
     @JvmOverloads
-    public constructor(vararg geometries: Geometry, bbox: BoundingBox? = null) : this(geometries.toList(), bbox)
+    public constructor(
+        vararg geometries: Geometry,
+        bbox: BoundingBox? = null,
+    ) : this(geometries.toList(), bbox)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -49,11 +52,12 @@ public class GeometryCollection @JvmOverloads constructor(
             fromJson(Json.decodeFromString(JsonObject.serializer(), json))
 
         @JvmStatic
-        public fun fromJsonOrNull(json: String): GeometryCollection? = try {
-            fromJson(json)
-        } catch (_: Exception) {
-            null
-        }
+        public fun fromJsonOrNull(json: String): GeometryCollection? =
+            try {
+                fromJson(json)
+            } catch (_: Exception) {
+                null
+            }
 
         @JvmStatic
         public fun fromJson(json: JsonObject): GeometryCollection {
@@ -61,9 +65,8 @@ public class GeometryCollection @JvmOverloads constructor(
                 "Object \"type\" is not \"GeometryCollection\"."
             }
 
-            val geometries = json.getValue("geometries").jsonArray.map {
-                Geometry.fromJson(it.jsonObject)
-            }
+            val geometries =
+                json.getValue("geometries").jsonArray.map { Geometry.fromJson(it.jsonObject) }
 
             val bbox = json["bbox"]?.jsonArray?.toBbox()
 

@@ -15,7 +15,8 @@ import kotlinx.serialization.json.put
 public object FeatureSerializer : JsonSerializer<Feature> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Feature")
 
-    override fun deserialize(input: JsonDecoder): Feature = Feature.fromJson(input.decodeJsonElement().jsonObject)
+    override fun deserialize(input: JsonDecoder): Feature =
+        Feature.fromJson(input.decodeJsonElement().jsonObject)
 
     override fun serialize(output: JsonEncoder, value: Feature) {
         output.encodeJsonElement(value.toJsonObject())

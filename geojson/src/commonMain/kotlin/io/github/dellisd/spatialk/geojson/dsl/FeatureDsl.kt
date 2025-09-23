@@ -6,9 +6,9 @@ package io.github.dellisd.spatialk.geojson.dsl
 import io.github.dellisd.spatialk.geojson.BoundingBox
 import io.github.dellisd.spatialk.geojson.Feature
 import io.github.dellisd.spatialk.geojson.Geometry
+import kotlin.jvm.JvmName
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
-import kotlin.jvm.JvmName
 
 @GeoJsonDsl
 public class PropertiesBuilder {
@@ -38,5 +38,5 @@ public inline fun feature(
     geometry: Geometry? = null,
     id: String? = null,
     bbox: BoundingBox? = null,
-    properties: PropertiesBuilder.() -> Unit = {}
+    properties: PropertiesBuilder.() -> Unit = {},
 ): Feature = Feature(geometry, PropertiesBuilder().apply(properties).build(), id, bbox)

@@ -1,34 +1,34 @@
 name: Publish Website
 
 on:
-  push:
-    tags:
-      - "v*"
+    push:
+        tags:
+            - "v*"
 
 jobs:
-  publish-website:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.8
-      
-      - name: Build Dokka docs
-        run: ./gradlew dokkaGenerateHtml --no-daemon --no-parallel
-      
-      - name: Build mkdocs
-        run: |
-          pip3 install mkdocs-material
-          mkdocs build
-        
-      - name: Deploy 🚀
-        if: success()
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: site
-          single-commit: true
+    publish-website:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v5
+              with:
+                  python-version: 3.8
+
+            - name: Build Dokka docs
+              run: ./gradlew dokkaGenerateHtml --no-daemon --no-parallel
+
+            - name: Build mkdocs
+              run: |
+                  pip3 install mkdocs-material
+                  mkdocs build
+
+            - name: Deploy 🚀
+              if: success()
+              uses: JamesIves/github-pages-deploy-action@releases/v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: gh-pages
+                  folder: site
+                  single-commit: true

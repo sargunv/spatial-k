@@ -17,10 +17,9 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * [KSerializer] implementation for implementations of the [Position] interface.
- * Serializes a Position down to an array of numbers as specified by GeoJSON.
- * This serializer only works for converting to and from JSON.
- * A position maps to `[longitude, latitude, altitude]`.
+ * [KSerializer] implementation for implementations of the [Position] interface. Serializes a
+ * Position down to an array of numbers as specified by GeoJSON. This serializer only works for
+ * converting to and from JSON. A position maps to `[longitude, latitude, altitude]`.
  *
  * A position's [altitude][Position.altitude] is only included in the array if it is not null.
  */
@@ -29,19 +28,22 @@ public object PositionSerializer : KSerializer<Position> {
         get() = buildSerialDescriptor("Position", StructureKind.LIST)
 
     override fun deserialize(decoder: Decoder): Position {
-        val input = decoder as? JsonDecoder ?: throw SerializationException("This class can only be loaded from JSON")
+        val input =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("This class can only be loaded from JSON")
 
         val array = input.decodeJsonElement().jsonArray
 
         return Position(
             array[0].jsonPrimitive.double,
             array[1].jsonPrimitive.double,
-            array.getOrNull(2)?.jsonPrimitive?.double
+            array.getOrNull(2)?.jsonPrimitive?.double,
         )
     }
 
     override fun serialize(encoder: Encoder, value: Position) {
-        encoder as? JsonEncoder ?: throw SerializationException("This class can only be saved as JSON")
+        encoder as? JsonEncoder
+            ?: throw SerializationException("This class can only be saved as JSON")
 
         val array = buildJsonArray {
             add(value.longitude)

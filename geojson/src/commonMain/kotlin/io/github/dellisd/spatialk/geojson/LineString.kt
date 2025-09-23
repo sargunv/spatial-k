@@ -5,27 +5,30 @@ import io.github.dellisd.spatialk.geojson.serialization.jsonJoin
 import io.github.dellisd.spatialk.geojson.serialization.jsonProp
 import io.github.dellisd.spatialk.geojson.serialization.toBbox
 import io.github.dellisd.spatialk.geojson.serialization.toPosition
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmStatic
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
-import kotlin.jvm.JvmOverloads
-import kotlin.jvm.JvmStatic
 
 @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
 @Serializable(with = GeometrySerializer::class)
-public class LineString @JvmOverloads constructor(
-    public val coordinates: List<Position>,
-    override val bbox: BoundingBox? = null
-) : Geometry() {
+public class LineString
+@JvmOverloads
+constructor(public val coordinates: List<Position>, override val bbox: BoundingBox? = null) :
+    Geometry() {
     @JvmOverloads
-    public constructor(vararg coordinates: Position, bbox: BoundingBox? = null) : this(coordinates.toList(), bbox)
+    public constructor(
+        vararg coordinates: Position,
+        bbox: BoundingBox? = null,
+    ) : this(coordinates.toList(), bbox)
 
     @JvmOverloads
     public constructor(
         coordinates: Array<DoubleArray>,
-        bbox: BoundingBox? = null
+        bbox: BoundingBox? = null,
     ) : this(coordinates.map(::Position), bbox)
 
     init {
@@ -55,14 +58,16 @@ public class LineString @JvmOverloads constructor(
 
     public companion object {
         @JvmStatic
-        public fun fromJson(json: String): LineString = fromJson(Json.decodeFromString(JsonObject.serializer(), json))
+        public fun fromJson(json: String): LineString =
+            fromJson(Json.decodeFromString(JsonObject.serializer(), json))
 
         @JvmStatic
-        public fun fromJsonOrNull(json: String): LineString? = try {
-            fromJson(json)
-        } catch (_: Exception) {
-            null
-        }
+        public fun fromJsonOrNull(json: String): LineString? =
+            try {
+                fromJson(json)
+            } catch (_: Exception) {
+                null
+            }
 
         @JvmStatic
         public fun fromJson(json: JsonObject): LineString {

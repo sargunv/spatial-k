@@ -16,20 +16,14 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_1_8
-        }
-        compilations.create("bench") {
-            associateWith(this@jvm.compilations.getByName("main"))
-        }
+        compilerOptions { jvmTarget = JvmTarget.JVM_1_8 }
+        compilations.create("bench") { associateWith(this@jvm.compilations.getByName("main")) }
     }
 
     js(IR) {
         browser()
         nodejs()
-        compilations.create("bench") {
-            associateWith(this@js.compilations.getByName("main"))
-        }
+        compilations.create("bench") { associateWith(this@js.compilations.getByName("main")) }
     }
 
     wasmJs {
@@ -38,9 +32,7 @@ kotlin {
         d8()
     }
 
-    wasmWasi {
-        nodejs()
-    }
+    wasmWasi { nodejs() }
 
     // native tier 1
     macosArm64()
@@ -51,9 +43,7 @@ kotlin {
     macosX64()
     iosX64()
     linuxX64 {
-        compilations.create("bench") {
-            associateWith(this@linuxX64.compilations.getByName("main"))
-        }
+        compilations.create("bench") { associateWith(this@linuxX64.compilations.getByName("main")) }
     }
     linuxArm64()
     watchosSimulatorArm64()
@@ -82,11 +72,7 @@ kotlin {
             }
         }
 
-        commonMain {
-            dependencies {
-                api(libs.kotlinx.serialization)
-            }
-        }
+        commonMain { dependencies { api(libs.kotlinx.serialization) } }
 
         commonTest {
             dependencies {
@@ -95,32 +81,18 @@ kotlin {
             }
         }
 
-        val commonBench by creating {
-            dependencies {
-                implementation(libs.kotlinx.benchmark)
-            }
-        }
+        val commonBench by creating { dependencies { implementation(libs.kotlinx.benchmark) } }
 
-        getByName("jsBench") {
-            dependsOn(commonBench)
-        }
+        getByName("jsBench") { dependsOn(commonBench) }
 
-        getByName("jvmBench") {
-            dependsOn(commonBench)
-        }
+        getByName("jvmBench") { dependsOn(commonBench) }
 
-        getByName("linuxX64Bench") {
-            dependsOn(commonBench)
-        }
+        getByName("linuxX64Bench") { dependsOn(commonBench) }
     }
 }
 
 benchmark {
-    this.configurations {
-        getByName("main") {
-            iterations = 5
-        }
-    }
+    this.configurations { getByName("main") { iterations = 5 } }
 
     targets {
         register("jvmBench")
@@ -129,10 +101,4 @@ benchmark {
     }
 }
 
-dokka {
-    dokkaSourceSets {
-        configureEach {
-            includes.from("MODULE.md")
-        }
-    }
-}
+dokka { dokkaSourceSets { configureEach { includes.from("MODULE.md") } } }

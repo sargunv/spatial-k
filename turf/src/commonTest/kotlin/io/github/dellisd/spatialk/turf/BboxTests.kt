@@ -110,15 +110,16 @@ class BboxTests {
 
     @Test
     fun testEmptyFeatures() {
-        val emptyBbox = BoundingBox(
-            Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY,
-            Double.NEGATIVE_INFINITY,
-            Double.NEGATIVE_INFINITY
-        )
+        val emptyBbox =
+            BoundingBox(
+                Double.POSITIVE_INFINITY,
+                Double.POSITIVE_INFINITY,
+                Double.NEGATIVE_INFINITY,
+                Double.NEGATIVE_INFINITY,
+            )
 
         assertEquals(emptyBbox, bbox(feature()))
 
-        assertEquals(emptyBbox, bbox(featureCollection { }))
+        assertEquals(emptyBbox, bbox(featureCollection {}))
     }
 }

@@ -32,13 +32,15 @@ public object GeometrySerializer : KSerializer<Geometry> {
         get() = buildSerialDescriptor("Geometry", PolymorphicKind.SEALED)
 
     override fun deserialize(decoder: Decoder): Geometry {
-        decoder as? JsonDecoder ?: throw SerializationException("This class can only be loaded from JSON")
+        decoder as? JsonDecoder
+            ?: throw SerializationException("This class can only be loaded from JSON")
 
         return Geometry.fromJson(decoder.decodeJsonElement().jsonObject)
     }
 
     override fun serialize(encoder: Encoder, value: Geometry) {
-        encoder as? JsonEncoder ?: throw SerializationException("This class can only be saved as JSON")
+        encoder as? JsonEncoder
+            ?: throw SerializationException("This class can only be saved as JSON")
 
         encoder.encodeJsonElement(value.toJsonObject())
     }
@@ -56,7 +58,7 @@ public object GeometrySerializer : KSerializer<Geometry> {
                     "coordinates",
                     buildJsonArray {
                         coordinates.forEach { position -> add(position.toJsonArray()) }
-                    }
+                    },
                 )
             }
             is LineString -> {
@@ -65,7 +67,7 @@ public object GeometrySerializer : KSerializer<Geometry> {
                     "coordinates",
                     buildJsonArray {
                         coordinates.forEach { position -> add(position.toJsonArray()) }
-                    }
+                    },
                 )
             }
             is MultiLineString -> {
@@ -74,11 +76,13 @@ public object GeometrySerializer : KSerializer<Geometry> {
                     "coordinates",
                     buildJsonArray {
                         coordinates.forEach { line ->
-                            add(buildJsonArray {
-                                line.forEach { position -> add(position.toJsonArray()) }
-                            })
+                            add(
+                                buildJsonArray {
+                                    line.forEach { position -> add(position.toJsonArray()) }
+                                }
+                            )
                         }
-                    }
+                    },
                 )
             }
             is Polygon -> {
@@ -87,11 +91,13 @@ public object GeometrySerializer : KSerializer<Geometry> {
                     "coordinates",
                     buildJsonArray {
                         coordinates.forEach { ring ->
-                            add(buildJsonArray {
-                                ring.forEach { position -> add(position.toJsonArray()) }
-                            })
+                            add(
+                                buildJsonArray {
+                                    ring.forEach { position -> add(position.toJsonArray()) }
+                                }
+                            )
                         }
-                    }
+                    },
                 )
             }
             is MultiPolygon -> {
@@ -100,33 +106,31 @@ public object GeometrySerializer : KSerializer<Geometry> {
                     "coordinates",
                     buildJsonArray {
                         coordinates.forEach { polygon ->
-                            add(buildJsonArray {
-                                polygon.forEach { ring ->
-                                    add(buildJsonArray {
-                                        ring.forEach { position -> add(position.toJsonArray()) }
-                                    })
+                            add(
+                                buildJsonArray {
+                                    polygon.forEach { ring ->
+                                        add(
+                                            buildJsonArray {
+                                                ring.forEach { position ->
+                                                    add(position.toJsonArray())
+                                                }
+                                            }
+                                        )
+                                    }
                                 }
-                            })
+                            )
                         }
-                    }
+                    },
                 )
             }
             is GeometryCollection -> {
                 put("type", JsonPrimitive("GeometryCollection"))
-                put(
-                    "geometries",
-                    buildJsonArray {
-                        geometries.forEach {
-                            add(it.toJsonObject())
-                        }
-                    }
-                )
+                put("geometries", buildJsonArray { geometries.forEach { add(it.toJsonObject()) } })
             }
         }
 
         bbox?.let { put("bbox", it.toJsonArray()) }
     }
-
 
     private fun Position.toJsonArray(): JsonArray = buildJsonArray {
         add(JsonPrimitive(longitude))

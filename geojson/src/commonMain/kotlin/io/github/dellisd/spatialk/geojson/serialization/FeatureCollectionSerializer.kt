@@ -23,12 +23,7 @@ public object FeatureCollectionSerializer : JsonSerializer<FeatureCollection> {
         val data = buildJsonObject {
             put("type", "FeatureCollection")
             value.bbox?.let { put("bbox", it.toJsonArray()) }
-            put(
-                "features",
-                buildJsonArray {
-                    value.features.forEach { add(it.toJsonObject()) }
-                }
-            )
+            put("features", buildJsonArray { value.features.forEach { add(it.toJsonObject()) } })
         }
         output.encodeJsonElement(data)
     }
