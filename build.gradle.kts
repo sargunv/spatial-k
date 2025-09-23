@@ -5,7 +5,7 @@ plugins {
 }
 
 dokka {
-    moduleName = "Spatial K API Reference"
+    moduleName = "Spatial K"
     dokkaPublications.html {
         outputDirectory = rootDir.absoluteFile.resolve("docs/api")
     }
