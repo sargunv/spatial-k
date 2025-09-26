@@ -15,6 +15,7 @@ import org.maplibre.spatialk.geojson.serialization.toBbox
 import org.maplibre.spatialk.geojson.serialization.toPosition
 
 /**
+ * @throws IllegalArgumentException if the coordinates contain fewer than two positions
  * @see <a href="https://tools.ietf.org/html/rfc7946#section-3.1.4">
  *   https://tools.ietf.org/html/rfc7946#section-3.1.4</a>
  * @see MultiLineString
@@ -23,20 +24,41 @@ import org.maplibre.spatialk.geojson.serialization.toPosition
 @Serializable(with = GeometrySerializer::class)
 public class LineString
 @JvmOverloads
-constructor(public val coordinates: List<Position>, override val bbox: BoundingBox? = null) :
-    Geometry() {
+constructor(
+    /** a list of [Position]s. */
+    public val coordinates: List<Position>,
+    /** a bounding box */
+    override val bbox: BoundingBox? = null,
+) : Geometry() {
+
+    /**
+     * Create a LineString by a number of [Position]s.
+     *
+     * @throws IllegalArgumentException if fewer than two coordinates have been specified
+     */
     @JvmOverloads
     public constructor(
         vararg coordinates: Position,
         bbox: BoundingBox? = null,
     ) : this(coordinates.toList(), bbox)
 
+    /**
+     * Create a LineString by the positions of a number of [Point]s.
+     *
+     * @throws IllegalArgumentException if fewer than two points have been specified
+     */
     @JvmOverloads
     public constructor(
         vararg points: Point,
         bbox: BoundingBox? = null,
     ) : this(points.map { it.coordinates }, bbox)
 
+    /**
+     * Create a LineString by an array of [DoubleArray]s that each represent a position.
+     *
+     * @throws IllegalArgumentException if the coordinates contain fewer than two positions or any
+     *   array of doubles does not represent a valid position
+     */
     @JvmOverloads
     public constructor(
         coordinates: Array<DoubleArray>,
@@ -44,7 +66,7 @@ constructor(public val coordinates: List<Position>, override val bbox: BoundingB
     ) : this(coordinates.map(::Position), bbox)
 
     init {
-        require(coordinates.size >= 2) { "LineString must have at least two positions" }
+        require(coordinates.size >= 2) { "LineString must contain at least two positions" }
     }
 
     override fun equals(other: Any?): Boolean {
