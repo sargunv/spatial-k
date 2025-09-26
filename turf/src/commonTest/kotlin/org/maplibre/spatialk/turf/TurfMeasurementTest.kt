@@ -211,6 +211,7 @@ class TurfMeasurementTest {
                             point(101.0, 1.0)
                             point(100.0, 1.0)
                             point(100.0, 0.0)
+                            point(102.0, -10.0)
                         }
                     }
             )
@@ -234,6 +235,7 @@ class TurfMeasurementTest {
         )
     }
 
+    @Test
     fun testPointToLineDistance() {
         val point = Position(-0.54931640625, 0.7470491450051796)
         val line =
