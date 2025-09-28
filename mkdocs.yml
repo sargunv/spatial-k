@@ -20,8 +20,8 @@ nav:
 
 theme:
     name: "material"
-    favicon: images/logo.png
-    logo: images/logo.png
+    favicon: images/logo-icon.svg
+    logo: images/logo-icon.svg
     features:
         - navigation.indexes
     palette:
@@ -43,7 +43,8 @@ theme:
 markdown_extensions:
     - pymdownx.highlight:
           anchor_linenums: true
-    - pymdownx.snippets
+    - pymdownx.snippets:
+          dedent_subsections: true
     - pymdownx.arithmatex
     - pymdownx.betterem:
           smart_enable: all
@@ -51,8 +52,8 @@ markdown_extensions:
     - pymdownx.critic
     - pymdownx.details
     - pymdownx.emoji:
-          emoji_index: !!python/name:materialx.emoji.twemoji
-          emoji_generator: !!python/name:materialx.emoji.to_svg
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
     - pymdownx.inlinehilite
     - pymdownx.magiclink
     - pymdownx.mark

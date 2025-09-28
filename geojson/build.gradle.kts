@@ -74,15 +74,20 @@ kotlin {
             }
         }
 
-        commonMain { dependencies { api(libs.kotlinx.serialization.json) } }
+        commonMain {
+            dependencies {
+                implementation(libs.jetbrains.annotations)
+                api(libs.kotlinx.serialization.json)
+            }
+        }
 
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotlinx.io.core)
-                api(libs.kotlinx.serialization.protobuf)
-                api(libs.kotlinx.serialization.cbor)
+                implementation(libs.kotlinx.serialization.protobuf)
+                implementation(libs.kotlinx.serialization.cbor)
                 implementation(project(":testutil"))
             }
         }
@@ -135,4 +140,23 @@ benchmark {
     }
 }
 
-dokka { dokkaSourceSets { configureEach { includes.from("MODULE.md") } } }
+dokka {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("MODULE.md")
+            sourceLink {
+                // TODO link to version (git tag) using jgitver
+                remoteUrl("https://github.com/maplibre/spatial-k/tree/main/")
+                localDirectory = rootDir
+            }
+            externalDocumentationLinks {
+                create("kotlinx-serialization") {
+                    url("https://kotlinlang.org/api/kotlinx.serialization/")
+                }
+            }
+        }
+    }
+    pluginsConfiguration {
+        html { customStyleSheets.from(rootProject.file("docs/styles/dokka-extra.css")) }
+    }
+}
