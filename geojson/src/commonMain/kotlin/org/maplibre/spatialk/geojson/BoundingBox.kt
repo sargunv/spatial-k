@@ -1,6 +1,8 @@
 package org.maplibre.spatialk.geojson
 
 import kotlin.jvm.JvmStatic
+import kotlin.jvm.JvmSynthetic
+import kotlin.math.min
 import kotlinx.serialization.Serializable
 import org.intellij.lang.annotations.Language
 import org.maplibre.spatialk.geojson.serialization.BoundingBoxSerializer
@@ -26,10 +28,11 @@ import org.maplibre.spatialk.geojson.serialization.GeoJson
  *   https://tools.ietf.org/html/rfc7946#section-5</a>
  */
 @Serializable(with = BoundingBoxSerializer::class)
-public class BoundingBox(public val coordinates: DoubleArray) {
+public class BoundingBox internal constructor(internal val coordinates: DoubleArray) :
+    Iterable<Double> {
     init {
-        require(coordinates.size == 4 || coordinates.size == 6) {
-            "Bounding Box coordinates must either have 4 or 6 values"
+        require(coordinates.size >= 4 && coordinates.size % 2 == 0) {
+            "Bounding Box coordinates must have at least 4 and an even number of values"
         }
     }
 
@@ -40,8 +43,6 @@ public class BoundingBox(public val coordinates: DoubleArray) {
         north: Double,
     ) : this(doubleArrayOf(west, south, east, north))
 
-    public constructor(coordinates: List<Double>) : this(coordinates.toDoubleArray())
-
     public constructor(
         west: Double,
         south: Double,
@@ -51,35 +52,51 @@ public class BoundingBox(public val coordinates: DoubleArray) {
         maxAltitude: Double,
     ) : this(doubleArrayOf(west, south, minAltitude, east, north, maxAltitude))
 
+    /**
+     * Construct a [BoundingBox] from two [Position]s that represent the southwest corner and
+     * northeast corners.
+     *
+     * If one corner has more elements than the other, the extra elements are ignored.
+     */
     public constructor(
         southwest: Position,
         northeast: Position,
     ) : this(
-        when (southwest.hasAltitude && northeast.hasAltitude) {
-            true -> southwest.coordinates + northeast.coordinates
-            false ->
-                doubleArrayOf(
-                    southwest.longitude,
-                    southwest.latitude,
-                    northeast.longitude,
-                    northeast.latitude,
-                )
+        min(southwest.size, northeast.size).let { size ->
+            southwest.coordinates.sliceArray(0..<size) + northeast.coordinates.sliceArray(0..<size)
         }
     )
 
+    /**
+     * Construct a [BoundingBox] with more than the standard three axes (`longitude`, `latitude`,
+     * `altitude`) per corner. Such additional axes are discouraged but allowed by the GeoJson
+     * specification:
+     * > Implementations SHOULD NOT extend positions beyond three elements because the semantics of
+     * > extra elements are unspecified and ambiguous. Historically, some implementations have used
+     * > a fourth element to carry a linear referencing measure (sometimes denoted as "M") or a
+     * > numerical timestamp, but in most situations a parser will not be able to properly interpret
+     * > these values.
+     *
+     * @param additionalElements must contain an even number of elements
+     * @see <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.1">
+     *   https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.1</a>
+     */
+    @SensitiveGeoJsonApi
+    public constructor(
+        west: Double,
+        south: Double,
+        minAltitude: Double,
+        east: Double,
+        north: Double,
+        maxAltitude: Double,
+        vararg additionalElements: Double,
+    ) : this(doubleArrayOf(west, south, minAltitude, east, north, maxAltitude, *additionalElements))
+
     public val southwest: Position
-        get() =
-            when (hasAltitude) {
-                true -> Position(coordinates[0], coordinates[1], coordinates[2])
-                false -> Position(coordinates[0], coordinates[1])
-            }
+        get() = Position(coordinates.sliceArray(0..<(coordinates.size / 2)))
 
     public val northeast: Position
-        get() =
-            when (hasAltitude) {
-                true -> Position(coordinates[3], coordinates[4], coordinates[5])
-                false -> Position(coordinates[2], coordinates[3])
-            }
+        get() = Position(coordinates.sliceArray((coordinates.size / 2)..<coordinates.size))
 
     public val west: Double
         get() = coordinates[0]
@@ -87,15 +104,38 @@ public class BoundingBox(public val coordinates: DoubleArray) {
     public val south: Double
         get() = coordinates[1]
 
+    public val minAltitude: Double?
+        get() = if (hasAltitude) coordinates[2] else null
+
     public val east: Double
-        get() = coordinates[2]
+        get() = if (hasAltitude) coordinates[3] else coordinates[2]
 
     public val north: Double
-        get() = coordinates[3]
+        get() = if (hasAltitude) coordinates[4] else coordinates[3]
 
-    public operator fun component1(): Position = southwest
+    public val maxAltitude: Double?
+        get() = if (hasAltitude) coordinates[5] else null
 
-    public operator fun component2(): Position = northeast
+    /** @return the coordinate at the given index. */
+    public operator fun get(index: Int): Double = coordinates[index]
+
+    /** @return the coordinate at the given index or null if the index is out of range. */
+    public fun getOrNull(index: Int): Double? = coordinates.getOrNull(index)
+
+    /** @return the number of elements in the coordinates array. */
+    public val size: Int
+        get() = coordinates.size
+
+    public val hasAltitude: Boolean
+        get() = coordinates.size >= 6
+
+    override fun iterator(): Iterator<Double> = coordinates.iterator()
+
+    /** @return [southwest] */
+    @JvmSynthetic public operator fun component1(): Position = southwest
+
+    /** @return [northeast] */
+    @JvmSynthetic public operator fun component2(): Position = northeast
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -130,6 +170,3 @@ public class BoundingBox(public val coordinates: DoubleArray) {
             }
     }
 }
-
-public val BoundingBox.hasAltitude: Boolean
-    get() = coordinates.size == 6

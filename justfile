@@ -12,6 +12,9 @@ pre-commit-uninstall:
 format:
     pre-commit run --all-files || true
 
+test-jvm:
+    ./gradlew jvmTest
+
 build:
     ./gradlew build
 

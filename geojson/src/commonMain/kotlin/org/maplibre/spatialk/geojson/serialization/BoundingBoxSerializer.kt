@@ -1,36 +1,31 @@
 package org.maplibre.spatialk.geojson.serialization
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.builtins.DoubleArraySerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.listSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.maplibre.spatialk.geojson.BoundingBox
 
+/** Serializes a [BoundingBox] by invoking [DoubleArraySerializer] on the coordinates. */
 public object BoundingBoxSerializer : KSerializer<BoundingBox> {
-    private const val ARRAY_SIZE_2D = 4
-    private const val ARRAY_SIZE_3D = 6
 
-    @OptIn(ExperimentalSerializationApi::class)
-    override val descriptor: SerialDescriptor = listSerialDescriptor(Double.serializer().descriptor)
+    private val delegate = DoubleArraySerializer()
+
+    override val descriptor: SerialDescriptor = delegate.descriptor
 
     override fun deserialize(decoder: Decoder): BoundingBox {
-        val list = ListSerializer(Double.serializer()).deserialize(decoder)
+        val array = delegate.deserialize(decoder)
 
-        if (list.size != ARRAY_SIZE_2D && list.size != ARRAY_SIZE_3D) {
+        if (array.size < 4 || array.size % 2 == 1)
             throw SerializationException(
-                "Expected array of size 4 or 6. Got array of size ${list.size}"
+                "BoundingBox data requires array of even size >= 4. Found array of size: ${array.size}"
             )
-        }
 
-        return BoundingBox(list.toDoubleArray())
+        return BoundingBox(array)
     }
 
-    override fun serialize(encoder: Encoder, value: BoundingBox) {
-        ListSerializer(Double.serializer()).serialize(encoder, value.coordinates.toList())
-    }
+    override fun serialize(encoder: Encoder, value: BoundingBox): Unit =
+        delegate.serialize(encoder, value.coordinates)
 }
