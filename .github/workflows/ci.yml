@@ -26,6 +26,8 @@ jobs:
         runs-on: ${{ matrix.runner }}
         steps:
             - uses: actions/checkout@v5
+              with:
+                  fetch-tags: true
             - uses: actions/setup-java@v5
               with:
                   distribution: temurin
@@ -42,6 +44,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
+              with:
+                  fetch-tags: true
             - uses: actions/setup-java@v5
               with:
                   distribution: temurin
@@ -55,6 +59,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
+              with:
+                  fetch-tags: true
             - uses: actions/setup-java@v5
               with:
                   distribution: temurin
@@ -73,6 +79,8 @@ jobs:
             pull-requests: write
         steps:
             - uses: actions/checkout@v5
+              with:
+                  fetch-tags: true
             - uses: pre-commit/action@v3.0.1
             - if: ${{ github.event_name == 'pull_request' && failure() }}
               uses: reviewdog/action-suggester@v1
@@ -90,6 +98,8 @@ jobs:
             pull-requests: write
         steps:
             - uses: actions/checkout@v5
+              with:
+                  fetch-tags: true
             - uses: actions/setup-java@v5
               with:
                   distribution: temurin
