@@ -32,13 +32,13 @@ jobs:
                   ./gradlew publishAndReleaseToMavenCentral -Psemver.stage=final -Psemver.scope=${{ github.event.inputs.scope }}
               env:
                   ORG_GRADLE_PROJECT_mavenCentralUsername:
-                      ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+                      ${{ secrets.MAVEN_CENTRAL_USERNAME }}
                   ORG_GRADLE_PROJECT_mavenCentralPassword:
-                      ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+                      ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
                   ORG_GRADLE_PROJECT_signingInMemoryKey:
-                      ${{ secrets.SIGNING_KEY }}
+                      ${{ secrets.GPG_SIGNING_KEY }}
                   ORG_GRADLE_PROJECT_signingInMemoryKeyId:
-                      ${{ secrets.SIGNING_KEY_ID }}
+                      ${{ secrets.GPG_SIGNING_KEY_ID }}
 
     publish-pages:
         runs-on: ubuntu-latest
