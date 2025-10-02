@@ -1,12 +1,12 @@
 package org.maplibre.spatialk.geojson
 
+import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
-import kotlin.jvm.JvmSynthetic
 import kotlin.math.min
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.intellij.lang.annotations.Language
 import org.maplibre.spatialk.geojson.serialization.BoundingBoxSerializer
-import org.maplibre.spatialk.geojson.serialization.GeoJson
 
 /**
  * Represents an area bounded by a [northeast] and [southwest] [Position].
@@ -29,7 +29,7 @@ import org.maplibre.spatialk.geojson.serialization.GeoJson
  */
 @Serializable(with = BoundingBoxSerializer::class)
 public class BoundingBox internal constructor(internal val coordinates: DoubleArray) :
-    Iterable<Double> {
+    GeoJsonElement, Iterable<Double> {
     init {
         require(coordinates.size >= 4 && coordinates.size % 2 == 0) {
             "Bounding Box coordinates must have at least 4 and an even number of values"
@@ -126,16 +126,17 @@ public class BoundingBox internal constructor(internal val coordinates: DoubleAr
     public val size: Int
         get() = coordinates.size
 
+    @get:JvmName("hasAltitude")
     public val hasAltitude: Boolean
         get() = coordinates.size >= 6
 
     override fun iterator(): Iterator<Double> = coordinates.iterator()
 
     /** @return [southwest] */
-    @JvmSynthetic public operator fun component1(): Position = southwest
+    public operator fun component1(): Position = southwest
 
     /** @return [northeast] */
-    @JvmSynthetic public operator fun component2(): Position = northeast
+    public operator fun component2(): Position = northeast
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -154,18 +155,20 @@ public class BoundingBox internal constructor(internal val coordinates: DoubleAr
         return "BoundingBox(southwest=$southwest, northeast=$northeast)"
     }
 
-    public fun json(): String = GeoJson.encodeToString(coordinates)
+    public override fun toJson(): String = Json.encodeToString(this)
 
     public companion object {
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJson(@Language("json") json: String): BoundingBox =
-            GeoJson.decodeFromString(serializer(), json)
+            GeoJson.jsonFormat.decodeFromString(json)
 
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJsonOrNull(@Language("json") json: String): BoundingBox? =
             try {
-                fromJson(json)
-            } catch (_: Exception) {
+                GeoJson.jsonFormat.decodeFromString(json)
+            } catch (_: IllegalArgumentException) {
                 null
             }
     }

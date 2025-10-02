@@ -5,7 +5,6 @@ import kotlin.jvm.JvmStatic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.intellij.lang.annotations.Language
-import org.maplibre.spatialk.geojson.serialization.GeoJson
 
 /**
  * @see <a href="https://tools.ietf.org/html/rfc7946#section-3.1.8">
@@ -17,7 +16,7 @@ import org.maplibre.spatialk.geojson.serialization.GeoJson
 public data class GeometryCollection
 @JvmOverloads
 constructor(public val geometries: List<Geometry>, override val bbox: BoundingBox? = null) :
-    Geometry(), Collection<Geometry> by geometries {
+    Geometry, Collection<Geometry> by geometries {
 
     @JvmOverloads
     public constructor(
@@ -25,19 +24,15 @@ constructor(public val geometries: List<Geometry>, override val bbox: BoundingBo
         bbox: BoundingBox? = null,
     ) : this(geometries.toList(), bbox)
 
-    override fun json(): String = GeoJson.encodeToString(this)
-
     public companion object {
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJson(@Language("json") json: String): GeometryCollection =
-            fromJson<GeometryCollection>(json)
+            GeoJson.decodeFromString(json)
 
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJsonOrNull(@Language("json") json: String): GeometryCollection? =
-            try {
-                fromJson(json)
-            } catch (_: IllegalArgumentException) {
-                null
-            }
+            GeoJson.decodeFromStringOrNull(json)
     }
 }

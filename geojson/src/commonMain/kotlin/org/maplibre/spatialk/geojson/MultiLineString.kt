@@ -5,7 +5,6 @@ import kotlin.jvm.JvmStatic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.intellij.lang.annotations.Language
-import org.maplibre.spatialk.geojson.serialization.GeoJson
 
 /**
  * @throws IllegalArgumentException if any of the position lists is not a valid line string
@@ -18,7 +17,7 @@ import org.maplibre.spatialk.geojson.serialization.GeoJson
 public data class MultiLineString
 @JvmOverloads
 constructor(public val coordinates: List<List<Position>>, override val bbox: BoundingBox? = null) :
-    Geometry() {
+    Geometry {
 
     /**
      * Create a MultiLineString by a number of lists of [Position]s.
@@ -59,19 +58,15 @@ constructor(public val coordinates: List<List<Position>>, override val bbox: Bou
         }
     }
 
-    override fun json(): String = GeoJson.encodeToString(this)
-
     public companion object {
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJson(@Language("json") json: String): MultiLineString =
-            fromJson<MultiLineString>(json)
+            GeoJson.decodeFromString(json)
 
         @JvmStatic
+        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJsonOrNull(@Language("json") json: String): MultiLineString? =
-            try {
-                fromJson(json)
-            } catch (_: IllegalArgumentException) {
-                null
-            }
+            GeoJson.decodeFromStringOrNull(json)
     }
 }
