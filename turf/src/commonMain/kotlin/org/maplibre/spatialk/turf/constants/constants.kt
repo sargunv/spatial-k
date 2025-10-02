@@ -6,7 +6,7 @@ package org.maplibre.spatialk.turf.constants
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import org.maplibre.spatialk.units.Length
-import org.maplibre.spatialk.units.meters
+import org.maplibre.spatialk.units.extensions.meters
 
 /**
  * Radius of the Earth used with the Harvesine formula. Approximated using a spherical

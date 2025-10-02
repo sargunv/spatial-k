@@ -11,8 +11,8 @@ import org.maplibre.spatialk.testutil.assertPositionEquals
 import org.maplibre.spatialk.testutil.readResourceFile
 import org.maplibre.spatialk.turf.measurement.computeBbox
 import org.maplibre.spatialk.turf.meta.coordAll
-import org.maplibre.spatialk.units.kilometers
-import org.maplibre.spatialk.units.meters
+import org.maplibre.spatialk.units.extensions.kilometers
+import org.maplibre.spatialk.units.extensions.meters
 
 class SquareGridTest {
 

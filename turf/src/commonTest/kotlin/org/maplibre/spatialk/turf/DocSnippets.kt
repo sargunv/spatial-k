@@ -5,7 +5,7 @@ package org.maplibre.spatialk.turf
 import kotlin.test.Test
 import org.maplibre.spatialk.geojson.Position
 import org.maplibre.spatialk.turf.measurement.destination
-import org.maplibre.spatialk.units.kilometers
+import org.maplibre.spatialk.units.extensions.kilometers
 
 // These snippets are primarily intended to be included in docs/turf.md. Though they exist as
 // part of the test suite, they are not intended to be comprehensive tests.
