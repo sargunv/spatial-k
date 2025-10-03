@@ -46,16 +46,16 @@ final value class org.maplibre.spatialk.units/Area : kotlin/Comparable<org.mapli
     final fun unaryPlus(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.unaryPlus|unaryPlus(){}[0]
 
     final object Companion { // org.maplibre.spatialk.units/Area.Companion|null[0]
-        final val MAX_VALUE // org.maplibre.spatialk.units/Area.Companion.MAX_VALUE|{}MAX_VALUE[0]
-            final fun <get-MAX_VALUE>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.MAX_VALUE.<get-MAX_VALUE>|<get-MAX_VALUE>(){}[0]
-        final val MIN_VALUE // org.maplibre.spatialk.units/Area.Companion.MIN_VALUE|{}MIN_VALUE[0]
-            final fun <get-MIN_VALUE>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.MIN_VALUE.<get-MIN_VALUE>|<get-MIN_VALUE>(){}[0]
-        final val NEGATIVE_INFINITY // org.maplibre.spatialk.units/Area.Companion.NEGATIVE_INFINITY|{}NEGATIVE_INFINITY[0]
-            final fun <get-NEGATIVE_INFINITY>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.NEGATIVE_INFINITY.<get-NEGATIVE_INFINITY>|<get-NEGATIVE_INFINITY>(){}[0]
-        final val POSITIVE_INFINITY // org.maplibre.spatialk.units/Area.Companion.POSITIVE_INFINITY|{}POSITIVE_INFINITY[0]
-            final fun <get-POSITIVE_INFINITY>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.POSITIVE_INFINITY.<get-POSITIVE_INFINITY>|<get-POSITIVE_INFINITY>(){}[0]
-        final val ZERO // org.maplibre.spatialk.units/Area.Companion.ZERO|{}ZERO[0]
-            final fun <get-ZERO>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.ZERO.<get-ZERO>|<get-ZERO>(){}[0]
+        final val MaxValue // org.maplibre.spatialk.units/Area.Companion.MaxValue|{}MaxValue[0]
+            final fun <get-MaxValue>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.MaxValue.<get-MaxValue>|<get-MaxValue>(){}[0]
+        final val MinValue // org.maplibre.spatialk.units/Area.Companion.MinValue|{}MinValue[0]
+            final fun <get-MinValue>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.MinValue.<get-MinValue>|<get-MinValue>(){}[0]
+        final val NegativeInfinity // org.maplibre.spatialk.units/Area.Companion.NegativeInfinity|{}NegativeInfinity[0]
+            final fun <get-NegativeInfinity>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.NegativeInfinity.<get-NegativeInfinity>|<get-NegativeInfinity>(){}[0]
+        final val PositiveInfinity // org.maplibre.spatialk.units/Area.Companion.PositiveInfinity|{}PositiveInfinity[0]
+            final fun <get-PositiveInfinity>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.PositiveInfinity.<get-PositiveInfinity>|<get-PositiveInfinity>(){}[0]
+        final val Zero // org.maplibre.spatialk.units/Area.Companion.Zero|{}Zero[0]
+            final fun <get-Zero>(): org.maplibre.spatialk.units/Area // org.maplibre.spatialk.units/Area.Companion.Zero.<get-Zero>|<get-Zero>(){}[0]
     }
 }
 
@@ -90,16 +90,16 @@ final value class org.maplibre.spatialk.units/Length : kotlin/Comparable<org.map
     final fun toString(org.maplibre.spatialk.units/LengthUnit, kotlin/Int = ...): kotlin/String // org.maplibre.spatialk.units/Length.toString|toString(org.maplibre.spatialk.units.LengthUnit;kotlin.Int){}[0]
 
     final object Companion { // org.maplibre.spatialk.units/Length.Companion|null[0]
-        final val MAX_VALUE // org.maplibre.spatialk.units/Length.Companion.MAX_VALUE|{}MAX_VALUE[0]
-            final fun <get-MAX_VALUE>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.MAX_VALUE.<get-MAX_VALUE>|<get-MAX_VALUE>(){}[0]
-        final val MIN_VALUE // org.maplibre.spatialk.units/Length.Companion.MIN_VALUE|{}MIN_VALUE[0]
-            final fun <get-MIN_VALUE>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.MIN_VALUE.<get-MIN_VALUE>|<get-MIN_VALUE>(){}[0]
-        final val NEGATIVE_INFINITY // org.maplibre.spatialk.units/Length.Companion.NEGATIVE_INFINITY|{}NEGATIVE_INFINITY[0]
-            final fun <get-NEGATIVE_INFINITY>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.NEGATIVE_INFINITY.<get-NEGATIVE_INFINITY>|<get-NEGATIVE_INFINITY>(){}[0]
-        final val POSITIVE_INFINITY // org.maplibre.spatialk.units/Length.Companion.POSITIVE_INFINITY|{}POSITIVE_INFINITY[0]
-            final fun <get-POSITIVE_INFINITY>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.POSITIVE_INFINITY.<get-POSITIVE_INFINITY>|<get-POSITIVE_INFINITY>(){}[0]
-        final val ZERO // org.maplibre.spatialk.units/Length.Companion.ZERO|{}ZERO[0]
-            final fun <get-ZERO>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.ZERO.<get-ZERO>|<get-ZERO>(){}[0]
+        final val MaxValue // org.maplibre.spatialk.units/Length.Companion.MaxValue|{}MaxValue[0]
+            final fun <get-MaxValue>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.MaxValue.<get-MaxValue>|<get-MaxValue>(){}[0]
+        final val MinValue // org.maplibre.spatialk.units/Length.Companion.MinValue|{}MinValue[0]
+            final fun <get-MinValue>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.MinValue.<get-MinValue>|<get-MinValue>(){}[0]
+        final val NegativeInfinity // org.maplibre.spatialk.units/Length.Companion.NegativeInfinity|{}NegativeInfinity[0]
+            final fun <get-NegativeInfinity>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.NegativeInfinity.<get-NegativeInfinity>|<get-NegativeInfinity>(){}[0]
+        final val PositiveInfinity // org.maplibre.spatialk.units/Length.Companion.PositiveInfinity|{}PositiveInfinity[0]
+            final fun <get-PositiveInfinity>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.PositiveInfinity.<get-PositiveInfinity>|<get-PositiveInfinity>(){}[0]
+        final val Zero // org.maplibre.spatialk.units/Length.Companion.Zero|{}Zero[0]
+            final fun <get-Zero>(): org.maplibre.spatialk.units/Length // org.maplibre.spatialk.units/Length.Companion.Zero.<get-Zero>|<get-Zero>(){}[0]
     }
 }
 

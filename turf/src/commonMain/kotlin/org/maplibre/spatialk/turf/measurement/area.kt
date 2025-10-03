@@ -5,11 +5,13 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmSynthetic
 import kotlin.math.sin
 import org.maplibre.spatialk.geojson.*
-import org.maplibre.spatialk.turf.constants.EARTH_EQUATOR_RADIUS
+import org.maplibre.spatialk.turf.constants.EarthEquatorRadius
 import org.maplibre.spatialk.turf.unitconversion.degreesToRadians
 import org.maplibre.spatialk.units.Area
+import org.maplibre.spatialk.units.AreaUnit
 import org.maplibre.spatialk.units.extensions.times
 
 /**
@@ -18,25 +20,30 @@ import org.maplibre.spatialk.units.extensions.times
  * @param geometry input geometry
  * @return area in square meters
  */
+@JvmSynthetic
 public fun area(geometry: Geometry): Area {
     return when (geometry) {
         is GeometryCollection ->
-            geometry.geometries.fold(Area.ZERO) { acc, geom -> acc + area(geom) }
+            geometry.geometries.fold(Area.Zero) { acc, geom -> acc + area(geom) }
         else -> calculateArea(geometry)
     }
 }
+
+@PublishedApi
+@Suppress("unused")
+internal fun area(geometry: Geometry, unit: AreaUnit): Double = area(geometry).toDouble(unit)
 
 private fun calculateArea(geometry: Geometry): Area {
     return when (geometry) {
         is Polygon -> polygonArea(geometry.coordinates)
         is MultiPolygon ->
-            geometry.coordinates.fold(Area.ZERO) { acc, coords -> acc + polygonArea(coords) }
-        else -> Area.ZERO
+            geometry.coordinates.fold(Area.Zero) { acc, coords -> acc + polygonArea(coords) }
+        else -> Area.Zero
     }
 }
 
 private fun polygonArea(coordinates: List<List<Position>>): Area {
-    var total = Area.ZERO
+    var total = Area.Zero
     if (coordinates.isNotEmpty()) {
         total += ringArea(coordinates[0]).absoluteValue
         for (i in 1 until coordinates.size) {
@@ -92,7 +99,7 @@ private fun ringArea(coordinates: List<Position>): Area {
                 (degreesToRadians(p3.longitude) - degreesToRadians(p1.longitude)) *
                     sin(degreesToRadians(p2.latitude))
         }
-        return (total * EARTH_EQUATOR_RADIUS * EARTH_EQUATOR_RADIUS / 2.0)
+        return (total * EarthEquatorRadius * EarthEquatorRadius / 2.0)
     }
-    return Area.ZERO
+    return Area.Zero
 }

@@ -10,8 +10,8 @@ import org.maplibre.spatialk.geojson.Geometry
 import org.maplibre.spatialk.geojson.LineString
 import org.maplibre.spatialk.geojson.MultiLineString
 import org.maplibre.spatialk.geojson.Position
-import org.maplibre.spatialk.turf.constants.ANTIMERIDIAN_NEG
-import org.maplibre.spatialk.turf.constants.ANTIMERIDIAN_POS
+import org.maplibre.spatialk.turf.constants.NegativeAntimeridian
+import org.maplibre.spatialk.turf.constants.PositiveAntimeridian
 import org.maplibre.spatialk.turf.unitconversion.degreesToRadians
 import org.maplibre.spatialk.turf.unitconversion.radiansToDegrees
 import org.maplibre.spatialk.units.extensions.inEarthRadians
@@ -38,7 +38,7 @@ public fun greatCircle(
     val deltaLatitude = start.latitude - end.latitude
 
     // check antipodal positions
-    require(abs(deltaLatitude) != 0.0 && abs(deltaLongitude % 360) - ANTIMERIDIAN_POS != 0.0) {
+    require(abs(deltaLatitude) != 0.0 && abs(deltaLongitude % 360) - PositiveAntimeridian != 0.0) {
         "Input $start and $end are diametrically opposite, thus there is no single route but rather infinite"
     }
 
@@ -69,8 +69,8 @@ public fun greatCircle(
         plainArc: List<Position>,
         antimeridianOffset: Double,
     ): List<List<Position>> {
-        val borderEast = ANTIMERIDIAN_POS - antimeridianOffset
-        val borderWest = ANTIMERIDIAN_NEG + antimeridianOffset
+        val borderEast = PositiveAntimeridian - antimeridianOffset
+        val borderWest = NegativeAntimeridian + antimeridianOffset
 
         val diffSpace = 360.0 - antimeridianOffset
 
@@ -105,20 +105,20 @@ public fun greatCircle(
 
                     @Suppress("ComplexCondition")
                     if (
-                        lon1 in (ANTIMERIDIAN_NEG + 1..<borderWest) &&
-                            lon2 == ANTIMERIDIAN_POS &&
+                        lon1 in (NegativeAntimeridian + 1..<borderWest) &&
+                            lon2 == PositiveAntimeridian &&
                             k + 1 < plainArc.size
                     ) {
-                        poNewLS.add(Position(ANTIMERIDIAN_NEG, currentPosition.latitude))
+                        poNewLS.add(Position(NegativeAntimeridian, currentPosition.latitude))
                         poNewLS.add(Position(plainArc[k + 1].longitude, plainArc[k + 1].latitude))
                         return@forEachIndexed
                     } else if (
                         lon1 > borderEast &&
-                            lon1 < ANTIMERIDIAN_POS &&
-                            lon2 == ANTIMERIDIAN_POS &&
+                            lon1 < PositiveAntimeridian &&
+                            lon2 == PositiveAntimeridian &&
                             k + 1 < plainArc.size
                     ) {
-                        poNewLS.add(Position(ANTIMERIDIAN_POS, currentPosition.latitude))
+                        poNewLS.add(Position(PositiveAntimeridian, currentPosition.latitude))
                         poNewLS.add(Position(plainArc[k + 1].longitude, plainArc[k + 1].latitude))
                         return@forEachIndexed
                     }
@@ -135,13 +135,13 @@ public fun greatCircle(
                         lon2 += 360.0
                     }
 
-                    if (ANTIMERIDIAN_POS in lon1..lon2 && lon1 < lon2) {
-                        val ratio = (ANTIMERIDIAN_POS - lon1) / (lon2 - lon1)
+                    if (PositiveAntimeridian in lon1..lon2 && lon1 < lon2) {
+                        val ratio = (PositiveAntimeridian - lon1) / (lon2 - lon1)
                         val lat = ratio * lat2 + (1 - ratio) * lat1
                         poNewLS.add(
                             if (previousPosition.longitude > borderEast)
-                                Position(ANTIMERIDIAN_POS, lat)
-                            else Position(ANTIMERIDIAN_NEG, lat)
+                                Position(PositiveAntimeridian, lat)
+                            else Position(NegativeAntimeridian, lat)
                         )
                         poMulti.add(poNewLS.toList())
                         poNewLS =
@@ -149,8 +149,8 @@ public fun greatCircle(
                         // list
                         poNewLS.add(
                             if (previousPosition.longitude > borderEast)
-                                Position(ANTIMERIDIAN_NEG, lat)
-                            else Position(ANTIMERIDIAN_POS, lat)
+                                Position(NegativeAntimeridian, lat)
+                            else Position(PositiveAntimeridian, lat)
                         )
                     } else {
                         poNewLS =
