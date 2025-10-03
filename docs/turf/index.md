@@ -14,23 +14,23 @@ found on the [Turfjs](https://turfjs.org) site.
 
 ## Installation
 
-#### Kotlin Multiplatform
+=== "Multiplatform"
 
-```kotlin
-commonMain {
-    dependencies {
-        implementation("org.maplibre.spatialk:turf:{{ gradle.project_version }}")
+    ```kotlin
+    commonMain {
+        dependencies {
+            implementation("org.maplibre.spatialk:turf:{{ gradle.project_version }}")
+        }
     }
-}
-```
+    ```
 
-#### Java and Kotlin/JVM
+=== "JVM"
 
-```kotlin
-dependencies {
-    implementation("org.maplibre.spatialk:turf-jvm:{{ gradle.project_version }}")
-}
-```
+    ```kotlin
+    dependencies {
+        implementation("org.maplibre.spatialk:turf-jvm:{{ gradle.project_version }}")
+    }
+    ```
 
 ## Example
 
@@ -40,7 +40,13 @@ member functions in Java.
 === "Kotlin"
 
     ```kotlin
-    --8<-- "turf/src/commonTest/kotlin/org/maplibre/spatialk/turf/DocSnippets.kt:example"
+    --8<-- "turf/src/commonTest/kotlin/org/maplibre/spatialk/turf/KotlinDocsTest.kt:example"
+    ```
+
+=== "Java"
+
+    ```java
+    --8<-- "turf/src/jvmTest/java/org/maplibre/spatialk/turf/JavaDocsTest.java:example"
     ```
 
 ## Turf Functions
