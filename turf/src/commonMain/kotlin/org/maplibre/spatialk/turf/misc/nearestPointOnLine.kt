@@ -57,12 +57,12 @@ internal fun nearestPointOnLine(
     var closest =
         NearestPointOnLineResult(
             Position(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
-            Length.POSITIVE_INFINITY,
-            Length.POSITIVE_INFINITY,
+            Length.PositiveInfinity,
+            Length.PositiveInfinity,
             -1,
         )
 
-    var length = Length.ZERO
+    var length = Length.Zero
 
     lines.forEach { coords ->
         for (i in 0 until coords.size - 1) {

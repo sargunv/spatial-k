@@ -68,11 +68,11 @@ public value class Length private constructor(private val valueInMeters: Double)
     override fun compareTo(other: Length): Int = valueInMeters.compareTo(other.valueInMeters)
 
     public companion object {
-        public val ZERO: Length = Length(0.0)
-        public val MAX_VALUE: Length = Length(Double.MAX_VALUE)
-        public val MIN_VALUE: Length = Length(Double.MIN_VALUE)
-        public val POSITIVE_INFINITY: Length = Length(Double.POSITIVE_INFINITY)
-        public val NEGATIVE_INFINITY: Length = Length(Double.NEGATIVE_INFINITY)
+        public val Zero: Length = Length(0.0)
+        public val MaxValue: Length = Length(Double.MAX_VALUE)
+        public val MinValue: Length = Length(Double.MIN_VALUE)
+        public val PositiveInfinity: Length = Length(Double.POSITIVE_INFINITY)
+        public val NegativeInfinity: Length = Length(Double.NEGATIVE_INFINITY)
 
         @JvmSynthetic
         internal fun of(value: Double, unit: LengthUnit) = Length(value * unit.metersPerUnit)

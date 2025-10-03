@@ -5,12 +5,18 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmSynthetic
 import kotlin.math.*
 import org.maplibre.spatialk.geojson.Position
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
+import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.earthRadians
 
 /** Calculates the distance along a rhumb line between two points. */
+@JvmSynthetic
+@JvmName("__rhumbDistance")
 public fun rhumbDistance(origin: Position, destination: Position): Length {
     // compensate the crossing of the 180th meridian
     val destination =
@@ -41,3 +47,12 @@ public fun rhumbDistance(origin: Position, destination: Position): Length {
 
     return dist
 }
+
+@PublishedApi
+@Suppress("unused")
+@JvmOverloads
+internal fun rhumbDistance(
+    origin: Position,
+    destination: Position,
+    unit: LengthUnit = Meters,
+): Double = rhumbDistance(origin, destination).toDouble(unit)

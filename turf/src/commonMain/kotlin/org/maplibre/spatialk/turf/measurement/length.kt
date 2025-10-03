@@ -5,54 +5,51 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
-import org.maplibre.spatialk.geojson.LineString
-import org.maplibre.spatialk.geojson.MultiLineString
-import org.maplibre.spatialk.geojson.MultiPolygon
-import org.maplibre.spatialk.geojson.Polygon
-import org.maplibre.spatialk.geojson.Position
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmSynthetic
+import org.maplibre.spatialk.geojson.*
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
+import org.maplibre.spatialk.units.LengthUnit
 
 /**
- * Calculates the length of the given [LineString].
+ * Calculates the length of the given [Geometry].
  *
- * @param lineString The geometry to measure
+ * If the geometry is a [Polygon] or a [MultiPolygon], the length is the perimeter, and holes are
+ * included in the length.
+ *
+ * If the geometry is a [MultiPoint], [MultiLineString], [MultiPolygon], or [GeometryCollection],
+ * the length is the sum of the lengths of the individual geometries.
+ *
+ * @param geometry The geometry to measure
  * @return The length of the geometry
  */
-public fun length(lineString: LineString): Length = length(lineString.coordinates)
-
-/**
- * Calculates the combined length of all [LineString]s from the given [MultiLineString].
- *
- * @param multiLineString The geometry to measure
- * @return The length of the geometry
- */
-public fun length(multiLineString: MultiLineString): Length =
-    multiLineString.coordinates.fold(Length.ZERO) { acc, coords -> acc + length(coords) }
-
-/**
- * Calculates the length of perimeter the given [Polygon]. Any holes in the polygon will be included
- * in the length.
- *
- * @param polygon The geometry to measure
- * @return The length of the geometry
- */
-public fun length(polygon: Polygon): Length =
-    polygon.coordinates.fold(Length.ZERO) { acc, ring -> acc + length(ring) }
-
-/**
- * Calculates the combined length of perimeter the [Polygon]s in the [MultiPolygon]. Any holes in
- * the polygons will be included in the length.
- *
- * @param multiPolygon The geometry to measure
- * @return The length of the geometry
- */
-public fun length(multiPolygon: MultiPolygon): Length =
-    multiPolygon.coordinates.fold(Length.ZERO) { total, polygon ->
-        total + polygon.fold(Length.ZERO) { acc, ring -> acc + length(ring) }
+@JvmSynthetic
+@JvmName("__length")
+public fun length(geometry: Geometry): Length =
+    when (geometry) {
+        is Point -> Length.Zero
+        is MultiPoint -> Length.Zero
+        is LineString -> length(geometry.coordinates)
+        is MultiLineString ->
+            geometry.coordinates.fold(Length.Zero) { acc, coords -> acc + length(coords) }
+        is Polygon -> geometry.coordinates.fold(Length.Zero) { acc, ring -> acc + length(ring) }
+        is MultiPolygon ->
+            geometry.coordinates.fold(Length.Zero) { total, polygon ->
+                total + polygon.fold(Length.Zero) { acc, ring -> acc + length(ring) }
+            }
+        is GeometryCollection ->
+            geometry.geometries.fold(Length.Zero) { acc, geom -> acc + length(geom) }
     }
 
+@PublishedApi
+@Suppress("unused")
+@JvmOverloads
+internal fun length(geometry: Geometry, unit: LengthUnit = Meters): Double =
+    length(geometry).toDouble(unit)
+
 private fun length(coords: List<Position>): Length {
-    var travelled = Length.ZERO
+    var travelled = Length.Zero
     var prevCoords = coords[0]
     for (i in 1 until coords.size) {
         travelled += distance(prevCoords, coords[i])

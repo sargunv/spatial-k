@@ -77,11 +77,11 @@ public value class Area private constructor(private val valueInMetersSquared: Do
 
     public companion object {
 
-        public val ZERO: Area = Area(0.0)
-        public val MAX_VALUE: Area = Area(Double.MAX_VALUE)
-        public val MIN_VALUE: Area = Area(Double.MIN_VALUE)
-        public val POSITIVE_INFINITY: Area = Area(Double.POSITIVE_INFINITY)
-        public val NEGATIVE_INFINITY: Area = Area(Double.NEGATIVE_INFINITY)
+        public val Zero: Area = Area(0.0)
+        public val MaxValue: Area = Area(Double.MAX_VALUE)
+        public val MinValue: Area = Area(Double.MIN_VALUE)
+        public val PositiveInfinity: Area = Area(Double.POSITIVE_INFINITY)
+        public val NegativeInfinity: Area = Area(Double.NEGATIVE_INFINITY)
 
         @JvmSynthetic
         internal fun of(value: Double, unit: AreaUnit) = Area(value * unit.metersSquaredPerUnit)

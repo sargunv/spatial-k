@@ -32,7 +32,7 @@ public fun lineIntersect(line1: LineString, line2: LineString): List<Position> {
  * @param line2 A [LineString] (must contain exactly 2 coordinates)
  * @return The position of the intersection, or null if the two lines do not intersect.
  */
-internal fun intersects(line1: LineString, line2: LineString): Position? {
+private fun intersects(line1: LineString, line2: LineString): Position? {
     require(line1.coordinates.size == 2) { "line1 must contain exactly 2 coordinates" }
     require(line2.coordinates.size == 2) { "line2 must contain exactly 2 coordinates" }
 

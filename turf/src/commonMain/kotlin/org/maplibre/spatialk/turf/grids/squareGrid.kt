@@ -5,11 +5,16 @@ package org.maplibre.spatialk.turf.grids
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmSynthetic
 import kotlin.math.abs
 import kotlin.math.floor
 import org.maplibre.spatialk.geojson.*
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
+import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.inEarthDegrees
+import org.maplibre.spatialk.units.extensions.toLength
 
 /**
  * Creates a square grid within a [BoundingBox].
@@ -19,7 +24,12 @@ import org.maplibre.spatialk.units.extensions.inEarthDegrees
  * @param cellHeight of each cell
  * @return a [FeatureCollection] grid of polygons
  */
-public fun squareGrid(bbox: BoundingBox, cellWidth: Length, cellHeight: Length): FeatureCollection {
+@JvmSynthetic
+public fun squareGrid(
+    bbox: BoundingBox,
+    cellWidth: Length,
+    cellHeight: Length = cellWidth,
+): FeatureCollection {
     val featureList = mutableListOf<Feature<Polygon>>()
     val west = bbox.southwest.longitude
     val south = bbox.southwest.latitude
@@ -59,3 +69,13 @@ public fun squareGrid(bbox: BoundingBox, cellWidth: Length, cellHeight: Length):
     }
     return FeatureCollection(featureList)
 }
+
+@PublishedApi
+@Suppress("unused")
+@JvmOverloads
+internal fun squareGrid(
+    bbox: BoundingBox,
+    cellWidth: Double,
+    cellHeight: Double = cellWidth,
+    unit: LengthUnit = Meters,
+): FeatureCollection = squareGrid(bbox, cellWidth.toLength(unit), cellHeight.toLength(unit))

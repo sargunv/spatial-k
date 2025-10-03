@@ -35,11 +35,11 @@ public final class org/maplibre/spatialk/units/Area : java/lang/Comparable {
 }
 
 public final class org/maplibre/spatialk/units/Area$Companion {
-	public final fun getMAX_VALUE-Od-tmbY ()D
-	public final fun getMIN_VALUE-Od-tmbY ()D
-	public final fun getNEGATIVE_INFINITY-Od-tmbY ()D
-	public final fun getPOSITIVE_INFINITY-Od-tmbY ()D
-	public final fun getZERO-Od-tmbY ()D
+	public final fun getMaxValue-Od-tmbY ()D
+	public final fun getMinValue-Od-tmbY ()D
+	public final fun getNegativeInfinity-Od-tmbY ()D
+	public final fun getPositiveInfinity-Od-tmbY ()D
+	public final fun getZero-Od-tmbY ()D
 }
 
 public class org/maplibre/spatialk/units/AreaUnit : java/lang/Comparable, org/maplibre/spatialk/units/UnitOfMeasure {
@@ -137,11 +137,11 @@ public final class org/maplibre/spatialk/units/Length : java/lang/Comparable {
 }
 
 public final class org/maplibre/spatialk/units/Length$Companion {
-	public final fun getMAX_VALUE-_8uq4Z0 ()D
-	public final fun getMIN_VALUE-_8uq4Z0 ()D
-	public final fun getNEGATIVE_INFINITY-_8uq4Z0 ()D
-	public final fun getPOSITIVE_INFINITY-_8uq4Z0 ()D
-	public final fun getZERO-_8uq4Z0 ()D
+	public final fun getMaxValue-_8uq4Z0 ()D
+	public final fun getMinValue-_8uq4Z0 ()D
+	public final fun getNegativeInfinity-_8uq4Z0 ()D
+	public final fun getPositiveInfinity-_8uq4Z0 ()D
+	public final fun getZero-_8uq4Z0 ()D
 }
 
 public class org/maplibre/spatialk/units/LengthUnit : java/lang/Comparable, org/maplibre/spatialk/units/UnitOfMeasure {
