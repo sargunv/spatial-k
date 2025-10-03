@@ -11,6 +11,7 @@ import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Polygon
 import org.maplibre.spatialk.turf.measurement.computeBbox
 import org.maplibre.spatialk.turf.measurement.destination
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.toLength
@@ -41,5 +42,9 @@ public fun circle(center: Point, radius: Length, steps: Int = 64): Polygon {
 @PublishedApi
 @JvmOverloads
 @Suppress("unused")
-internal fun circle(center: Point, radius: Double, unit: LengthUnit, steps: Int = 64): Polygon =
-    circle(center, radius.toLength(unit), steps)
+internal fun circle(
+    center: Point,
+    radius: Double,
+    unit: LengthUnit = Meters,
+    steps: Int = 64,
+): Polygon = circle(center, radius.toLength(unit), steps)

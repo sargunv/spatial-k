@@ -5,10 +5,12 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.*
 import org.maplibre.spatialk.geojson.Position
 import org.maplibre.spatialk.turf.unitconversion.degreesToRadians
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.earthRadians
@@ -24,6 +26,7 @@ import org.maplibre.spatialk.units.extensions.times
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>
  */
 @JvmSynthetic
+@JvmName("__distance")
 public fun distance(from: Position, to: Position): Length {
     val dLat = degreesToRadians(to.latitude - from.latitude)
     val dLon = degreesToRadians(to.longitude - from.longitude)
@@ -36,5 +39,6 @@ public fun distance(from: Position, to: Position): Length {
 
 @PublishedApi
 @Suppress("unused")
-internal fun distance(from: Position, to: Position, unit: LengthUnit): Double =
+@JvmOverloads
+internal fun distance(from: Position, to: Position, unit: LengthUnit = Meters): Double =
     distance(from, to).toDouble(unit)

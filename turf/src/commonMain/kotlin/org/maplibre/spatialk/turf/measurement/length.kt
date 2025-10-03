@@ -5,8 +5,10 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import org.maplibre.spatialk.geojson.*
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 
@@ -23,6 +25,7 @@ import org.maplibre.spatialk.units.LengthUnit
  * @return The length of the geometry
  */
 @JvmSynthetic
+@JvmName("__length")
 public fun length(geometry: Geometry): Length =
     when (geometry) {
         is Point -> Length.Zero
@@ -41,7 +44,9 @@ public fun length(geometry: Geometry): Length =
 
 @PublishedApi
 @Suppress("unused")
-internal fun length(geometry: Geometry, unit: LengthUnit): Double = length(geometry).toDouble(unit)
+@JvmOverloads
+internal fun length(geometry: Geometry, unit: LengthUnit = Meters): Double =
+    length(geometry).toDouble(unit)
 
 private fun length(coords: List<Position>): Length {
     var travelled = Length.Zero

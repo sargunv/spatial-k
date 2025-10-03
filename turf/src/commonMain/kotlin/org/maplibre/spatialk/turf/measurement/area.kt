@@ -5,6 +5,7 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.sin
 import org.maplibre.spatialk.geojson.*
@@ -12,6 +13,7 @@ import org.maplibre.spatialk.turf.constants.EarthEquatorRadius
 import org.maplibre.spatialk.turf.unitconversion.degreesToRadians
 import org.maplibre.spatialk.units.Area
 import org.maplibre.spatialk.units.AreaUnit
+import org.maplibre.spatialk.units.International.SquareMeters
 import org.maplibre.spatialk.units.extensions.times
 
 /**
@@ -21,6 +23,7 @@ import org.maplibre.spatialk.units.extensions.times
  * @return area in square meters
  */
 @JvmSynthetic
+@JvmName("__area")
 public fun area(geometry: Geometry): Area {
     return when (geometry) {
         is GeometryCollection ->
@@ -31,7 +34,9 @@ public fun area(geometry: Geometry): Area {
 
 @PublishedApi
 @Suppress("unused")
-internal fun area(geometry: Geometry, unit: AreaUnit): Double = area(geometry).toDouble(unit)
+@JvmOverloads
+internal fun area(geometry: Geometry, unit: AreaUnit = SquareMeters): Double =
+    area(geometry).toDouble(unit)
 
 private fun calculateArea(geometry: Geometry): Area {
     return when (geometry) {

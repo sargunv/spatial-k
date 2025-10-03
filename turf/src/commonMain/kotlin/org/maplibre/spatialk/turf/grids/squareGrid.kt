@@ -5,10 +5,12 @@ package org.maplibre.spatialk.turf.grids
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.abs
 import kotlin.math.floor
 import org.maplibre.spatialk.geojson.*
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.inEarthDegrees
@@ -70,9 +72,10 @@ public fun squareGrid(
 
 @PublishedApi
 @Suppress("unused")
+@JvmOverloads
 internal fun squareGrid(
     bbox: BoundingBox,
     cellWidth: Double,
     cellHeight: Double,
-    unit: LengthUnit,
+    unit: LengthUnit = Meters,
 ): FeatureCollection = squareGrid(bbox, cellWidth.toLength(unit), cellHeight.toLength(unit))

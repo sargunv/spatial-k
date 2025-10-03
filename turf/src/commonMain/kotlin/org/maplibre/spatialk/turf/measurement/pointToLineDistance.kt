@@ -5,9 +5,11 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import org.maplibre.spatialk.geojson.LineString
 import org.maplibre.spatialk.geojson.Position
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 
@@ -18,6 +20,7 @@ import org.maplibre.spatialk.units.LengthUnit
  * @param line line to calculate to
  */
 @JvmSynthetic
+@JvmName("__pointToLineDistance")
 public fun pointToLineDistance(point: Position, line: LineString): Length {
     var distance = Length.MaxValue
 
@@ -34,8 +37,12 @@ public fun pointToLineDistance(point: Position, line: LineString): Length {
 
 @PublishedApi
 @Suppress("unused")
-internal fun pointToLineDistance(point: Position, line: LineString, unit: LengthUnit): Double =
-    pointToLineDistance(point, line).toDouble(unit)
+@JvmOverloads
+internal fun pointToLineDistance(
+    point: Position,
+    line: LineString,
+    unit: LengthUnit = Meters,
+): Double = pointToLineDistance(point, line).toDouble(unit)
 
 private fun distanceToSegment(point: Position, start: Position, end: Position): Length {
     fun dot(u: Position, v: Position): Double {

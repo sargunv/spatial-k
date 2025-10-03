@@ -5,9 +5,11 @@ package org.maplibre.spatialk.turf.measurement
 
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 import org.maplibre.spatialk.geojson.LineString
 import org.maplibre.spatialk.geojson.Position
+import org.maplibre.spatialk.units.International.Meters
 import org.maplibre.spatialk.units.Length
 import org.maplibre.spatialk.units.LengthUnit
 import org.maplibre.spatialk.units.extensions.toLength
@@ -44,5 +46,6 @@ public fun along(line: LineString, distance: Length): Position {
 
 @PublishedApi
 @Suppress("unused")
-internal fun along(line: LineString, distance: Double, unit: LengthUnit): Position =
+@JvmOverloads
+internal fun along(line: LineString, distance: Double, unit: LengthUnit = Meters): Position =
     along(line, distance.toLength(unit))
