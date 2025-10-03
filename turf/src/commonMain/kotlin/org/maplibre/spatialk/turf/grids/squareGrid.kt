@@ -76,6 +76,6 @@ public fun squareGrid(
 internal fun squareGrid(
     bbox: BoundingBox,
     cellWidth: Double,
-    cellHeight: Double,
+    cellHeight: Double = cellWidth,
     unit: LengthUnit = Meters,
 ): FeatureCollection = squareGrid(bbox, cellWidth.toLength(unit), cellHeight.toLength(unit))
