@@ -5,6 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
@@ -297,5 +299,23 @@ class FeatureTest {
             """
             )
         )
+    }
+
+    @Test
+    fun testNullGeometry() {
+        val feature =
+            Feature.fromJson<Geometry>(
+                """
+            {
+                "type": "Feature",
+                "geometry": null
+            }
+            """
+            )
+        assertEquals(null, feature.geometry)
+
+        val json = Json.decodeFromString(JsonObject.serializer(), feature.toJson())
+        assertTrue(json.containsKey("geometry"))
+        assertEquals(JsonNull, json["geometry"])
     }
 }
