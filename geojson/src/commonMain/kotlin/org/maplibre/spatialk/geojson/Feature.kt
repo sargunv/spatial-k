@@ -10,6 +10,8 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
+import org.intellij.lang.annotations.Language
+import org.maplibre.spatialk.geojson.serialization.FeatureGeometrySerializer
 
 /**
  * A feature object represents a spatially bounded thing.
@@ -24,12 +26,12 @@ import kotlinx.serialization.json.decodeFromJsonElement
  */
 @Serializable
 @SerialName("Feature")
-public data class Feature<out T : Geometry>
+public data class Feature<out T : Geometry?>
 @JvmOverloads
 constructor(
-    // It would be ideal if nullability was expressed in the generic T, but kotlinx.serialization
-    // doesn't support that. See https://github.com/Kotlin/kotlinx.serialization/issues/2828.
-    public val geometry: T?,
+    @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
+    @Serializable(with = FeatureGeometrySerializer::class)
+    public val geometry: T,
     public val properties: JsonObject? = null,
     public val id: String? = null,
     override val bbox: BoundingBox? = null,
@@ -53,10 +55,12 @@ constructor(
         @JvmSynthetic // See below for Java-facing API
         @JvmName("__fromJson") // Prevent clash with Java-facing API
         @OptIn(SensitiveGeoJsonApi::class)
-        public inline fun <reified T : Geometry> fromJson(json: String): Feature<T> {
+        public inline fun <reified T : Geometry?> fromJson(
+            @Language("json") json: String
+        ): Feature<T> {
             @Suppress("UNCHECKED_CAST") // checked in `.also` block
             return GeoJson.decodeFromString<Feature<*>>(json).also {
-                if (it.geometry !is T?)
+                if (it.geometry !is T)
                     throw SerializationException("Object is not a Feature<${T::class.simpleName}>")
             } as Feature<T>
         }
@@ -64,10 +68,12 @@ constructor(
         @JvmSynthetic // See below for Java-facing API
         @JvmName("__fromJsonOrNull") // Prevent clash with Java-facing API
         @OptIn(SensitiveGeoJsonApi::class)
-        public inline fun <reified T : Geometry> fromJsonOrNull(json: String): Feature<T>? {
+        public inline fun <reified T : Geometry?> fromJsonOrNull(
+            @Language("json") json: String
+        ): Feature<T>? {
             @Suppress("UNCHECKED_CAST") // checked in `.also` block
             return GeoJson.decodeFromStringOrNull<Feature<*>>(json).also {
-                if (it?.geometry !is T?) return null
+                if (it?.geometry !is T) return null
             } as Feature<T>?
         }
 

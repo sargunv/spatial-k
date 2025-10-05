@@ -1,15 +1,8 @@
 package org.maplibre.spatialk.geojson
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.jsonPrimitive
+import kotlin.test.*
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.*
 import org.maplibre.spatialk.geojson.utils.DELTA
 import org.maplibre.spatialk.geojson.utils.assertJsonEquals
 
@@ -125,9 +118,8 @@ class FeatureTest {
             """
                 .trimIndent()
         val feature = Feature.fromJson<Point>(json)
-        val point = feature.geometry!!
-        assertEquals(point.coordinates.longitude, 125.6, DELTA)
-        assertEquals(point.coordinates.latitude, 10.1, DELTA)
+        assertEquals(feature.geometry.coordinates.longitude, 125.6, DELTA)
+        assertEquals(feature.geometry.coordinates.latitude, 10.1, DELTA)
         assertEquals(feature.properties!!["name"]!!.jsonPrimitive.content, "Dinagat Islands")
     }
 
@@ -153,7 +145,7 @@ class FeatureTest {
             """
                 .trimIndent()
         val feature = Feature.fromJson<LineString>(json)
-        val points = feature.geometry!!.coordinates
+        val points = feature.geometry.coordinates
         assertNotNull(points)
         assertEquals(4, points.size.toLong())
         assertEquals(105.0, points[3].longitude, DELTA)
@@ -303,19 +295,36 @@ class FeatureTest {
 
     @Test
     fun testNullGeometry() {
-        val feature =
-            Feature.fromJson<Geometry>(
-                """
-            {
-                "type": "Feature",
-                "geometry": null
-            }
-            """
-            )
-        assertEquals(null, feature.geometry)
+        val nullJson = """{"type": "Feature", "geometry": null}"""
+        assertNull(Feature.fromJson<Geometry?>(nullJson).geometry)
+        assertNull(Feature.fromJson<MultiPoint?>(nullJson).geometry)
+        assertNull(Feature.fromJson<Nothing?>(nullJson).geometry)
+        assertFailsWith<SerializationException> { Feature.fromJson<Geometry>(nullJson) }
+        assertFailsWith<SerializationException> { Feature.fromJson<MultiPoint>(nullJson) }
 
-        val json = Json.decodeFromString(JsonObject.serializer(), feature.toJson())
+        val json = Json.decodeFromString<JsonObject>(Feature.fromJson<Geometry?>(nullJson).toJson())
         assertTrue(json.containsKey("geometry"))
         assertEquals(JsonNull, json["geometry"])
+    }
+
+    @OptIn(SensitiveGeoJsonApi::class)
+    @Test
+    fun testIncorrectGeometry() {
+        val multipointJson =
+            """
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "MultiPoint",
+                    "coordinates": [[125.6, 10.1], [125.6, 10.1]]
+                }
+            }
+            """
+
+        assertIs<MultiPoint>(Feature.fromJson<Geometry?>(multipointJson).geometry)
+        assertIs<MultiPoint>(Feature.fromJson<Geometry>(multipointJson).geometry)
+        assertIs<MultiPoint>(Feature.fromJson<MultiPoint?>(multipointJson).geometry)
+        assertFailsWith<SerializationException> { Feature.fromJson<LineString>(multipointJson) }
+        assertFailsWith<SerializationException> { Feature.fromJson<Nothing?>(multipointJson) }
     }
 }
