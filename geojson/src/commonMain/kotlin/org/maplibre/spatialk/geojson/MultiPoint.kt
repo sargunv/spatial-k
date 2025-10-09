@@ -2,17 +2,16 @@ package org.maplibre.spatialk.geojson
 
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.intellij.lang.annotations.Language
+import org.maplibre.spatialk.geojson.serialization.MultiPointSerializer
 
 /**
  * @see <a href="https://tools.ietf.org/html/rfc7946#section-3.1.3">
  *   https://tools.ietf.org/html/rfc7946#section-3.1.3</a>
  * @see Point
  */
-@Serializable
-@SerialName("MultiPoint")
+@Serializable(with = MultiPointSerializer::class)
 public data class MultiPoint
 @JvmOverloads
 constructor(
@@ -40,14 +39,14 @@ constructor(
         bbox: BoundingBox? = null,
     ) : this(coordinates.map(::Position), bbox)
 
+    public override fun toJson(): String = GeoJson.encodeToString(this)
+
     public companion object {
         @JvmStatic
-        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJson(@Language("json") json: String): MultiPoint =
             GeoJson.decodeFromString(json)
 
         @JvmStatic
-        @OptIn(SensitiveGeoJsonApi::class)
         public fun fromJsonOrNull(@Language("json") json: String): MultiPoint? =
             GeoJson.decodeFromStringOrNull(json)
     }

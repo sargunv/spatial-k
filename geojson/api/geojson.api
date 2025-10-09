@@ -63,17 +63,6 @@ public final class org/maplibre/spatialk/geojson/Feature : org/maplibre/spatialk
 	public fun toString ()Ljava/lang/String;
 }
 
-public final synthetic class org/maplibre/spatialk/geojson/Feature$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public fun <init> (Lkotlinx/serialization/KSerializer;)V
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/Feature;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/Feature;)V
-	public final fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
 public final class org/maplibre/spatialk/geojson/Feature$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/Feature;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/Feature;
@@ -119,17 +108,6 @@ public final class org/maplibre/spatialk/geojson/FeatureCollection : java/util/C
 	public fun toString ()Ljava/lang/String;
 }
 
-public final synthetic class org/maplibre/spatialk/geojson/FeatureCollection$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/FeatureCollection$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/FeatureCollection;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/FeatureCollection;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
 public final class org/maplibre/spatialk/geojson/FeatureCollection$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/FeatureCollection;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/FeatureCollection;
@@ -153,17 +131,12 @@ public abstract interface class org/maplibre/spatialk/geojson/GeoJsonObject : or
 	public static fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeoJsonObject;
 	public static fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeoJsonObject;
 	public abstract fun getBbox ()Lorg/maplibre/spatialk/geojson/BoundingBox;
-	public fun toJson ()Ljava/lang/String;
 }
 
 public final class org/maplibre/spatialk/geojson/GeoJsonObject$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeoJsonObject;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeoJsonObject;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class org/maplibre/spatialk/geojson/GeoJsonObject$DefaultImpls {
-	public static fun toJson (Lorg/maplibre/spatialk/geojson/GeoJsonObject;)Ljava/lang/String;
 }
 
 public abstract interface class org/maplibre/spatialk/geojson/Geometry : org/maplibre/spatialk/geojson/GeoJsonObject {
@@ -176,10 +149,6 @@ public final class org/maplibre/spatialk/geojson/Geometry$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/Geometry;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/Geometry;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class org/maplibre/spatialk/geojson/Geometry$DefaultImpls {
-	public static fun toJson (Lorg/maplibre/spatialk/geojson/Geometry;)Ljava/lang/String;
 }
 
 public final class org/maplibre/spatialk/geojson/GeometryCollection : java/util/Collection, kotlin/jvm/internal/markers/KMappedMarker, org/maplibre/spatialk/geojson/Geometry {
@@ -221,17 +190,6 @@ public final class org/maplibre/spatialk/geojson/GeometryCollection : java/util/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final synthetic class org/maplibre/spatialk/geojson/GeometryCollection$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/GeometryCollection$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/GeometryCollection;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/GeometryCollection;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
 public final class org/maplibre/spatialk/geojson/GeometryCollection$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeometryCollection;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/GeometryCollection;
@@ -264,17 +222,6 @@ public final class org/maplibre/spatialk/geojson/LineString : org/maplibre/spati
 	public fun hashCode ()I
 	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class org/maplibre/spatialk/geojson/LineString$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/LineString$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/LineString;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/LineString;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class org/maplibre/spatialk/geojson/LineString$Companion {
@@ -311,17 +258,6 @@ public final class org/maplibre/spatialk/geojson/MultiLineString : org/maplibre/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final synthetic class org/maplibre/spatialk/geojson/MultiLineString$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/MultiLineString$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/MultiLineString;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/MultiLineString;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
 public final class org/maplibre/spatialk/geojson/MultiLineString$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/MultiLineString;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/MultiLineString;
@@ -351,17 +287,6 @@ public final class org/maplibre/spatialk/geojson/MultiPoint : org/maplibre/spati
 	public fun hashCode ()I
 	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class org/maplibre/spatialk/geojson/MultiPoint$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/MultiPoint$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/MultiPoint;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/MultiPoint;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class org/maplibre/spatialk/geojson/MultiPoint$Companion {
@@ -398,17 +323,6 @@ public final class org/maplibre/spatialk/geojson/MultiPolygon : org/maplibre/spa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final synthetic class org/maplibre/spatialk/geojson/MultiPolygon$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/MultiPolygon$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/MultiPolygon;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/MultiPolygon;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
 public final class org/maplibre/spatialk/geojson/MultiPolygon$Companion {
 	public final fun fromJson (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/MultiPolygon;
 	public final fun fromJsonOrNull (Ljava/lang/String;)Lorg/maplibre/spatialk/geojson/MultiPolygon;
@@ -436,17 +350,6 @@ public final class org/maplibre/spatialk/geojson/Point : org/maplibre/spatialk/g
 	public final fun toGeoUri ()Ljava/lang/String;
 	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class org/maplibre/spatialk/geojson/Point$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/Point$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/Point;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/Point;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class org/maplibre/spatialk/geojson/Point$Companion {
@@ -482,17 +385,6 @@ public final class org/maplibre/spatialk/geojson/Polygon : org/maplibre/spatialk
 	public fun hashCode ()I
 	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class org/maplibre/spatialk/geojson/Polygon$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lorg/maplibre/spatialk/geojson/Polygon$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lorg/maplibre/spatialk/geojson/Polygon;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lorg/maplibre/spatialk/geojson/Polygon;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class org/maplibre/spatialk/geojson/Polygon$Companion {
